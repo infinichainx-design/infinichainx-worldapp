@@ -1,37 +1,45 @@
 import React, { useState } from "react";
 import TokenSelector from "./TokenSelector";
-import useSwap from "../hooks/useSwap";
+import { executeSwap } from "../contracts/swapContract";
+import SuccessBanner from "./SuccessBanner";
+import ErrorBanner from "./ErrorBanner";
 
-export default function Swap() {
-  const [fromToken, setFromToken] = useState("WLD");
-  const [toToken, setToToken] = useState("USDC");
+export default function SwapPage() {
+  const [fromToken, setFromToken] = useState("");
+  const [toToken, setToToken] = useState("");
   const [amount, setAmount] = useState("");
-  const { swap, loading, error, success } = useSwap();
+  const [swapResult, setSwapResult] = useState<null | { success: boolean; txHash?: string; error?: any }>(null);
 
-  const handleSwap = () => {
-    swap({ fromToken, toToken, amount });
+  const handleSwap = async () => {
+    const result = await executeSwap(fromToken, toToken, amount);
+    setSwapResult(result);
   };
 
   return (
-    <div style={{ marginTop: "2rem" }}>
+    <div className="swap-page">
+      <h2>InfinichainX Swap</h2>
+
       <TokenSelector
         fromToken={fromToken}
         toToken={toToken}
         setFromToken={setFromToken}
         setToToken={setToToken}
       />
-      <input
-        type="number"
-        placeholder="Amount"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        style={{ margin: "1rem 0", padding: "0.5rem", width: "100%" }}
-      />
-      <button onClick={handleSwap} disabled={loading} style={{ padding: "0.75rem", width: "100%" }}>
-        {loading ? "Swapping..." : "Swap"}
-      </button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>✅ Swap successful!</p>}
+
+      <div>
+        <label>Amount:</label>
+        <input
+          type="text"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          placeholder="Enter amount"
+        />
+      </div>
+
+      <button onClick={handleSwap}>Swap</button>
+
+      {swapResult?.success && <SuccessBanner txHash={swapResult.txHash} />}
+      {swapResult?.success === false && <ErrorBanner error={swapResult.error} />}
     </div>
   );
 }
