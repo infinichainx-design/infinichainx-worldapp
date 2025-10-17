@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import WelcomePage from "./pages/WelcomePage";
-import SwapPage from "./pages/SwapPage";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import WelcomePage from "./components/WelcomePage";
+import SwapPage from "./components/SwapPage";
 
-function App() {
-  const [entered, setEntered] = useState(false);
-
-  return entered ? (
-    <SwapPage />
-  ) : (
-    <WelcomePage onEnter={() => setEntered(true)} />
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<WelcomePage />} />
+        <Route path="/swap" element={<SwapPage />} />
+      </Routes>
+    </Router>
   );
 }
-
-export default App;
