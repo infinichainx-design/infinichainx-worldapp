@@ -1,17 +1,6 @@
-export const TOKENS = [
-  {
-    symbol: "WLD",
-    address: "0x0000000000000000000000000000000000000001", // Reemplaza con dirección real en World Chain
-    decimals: 18,
-  },
-  {
-    symbol: "USDC",
-    address: "0x0000000000000000000000000000000000000002", // Reemplaza con dirección real
-    decimals: 6,
-  },
-  {
-    symbol: "ETH",
-    address: "0x0000000000000000000000000000000000000003", // Reemplaza con dirección real
-    decimals: 18,
-  },
-];
+export const WORLD_CHAIN_CONFIG = {
+  chainId: 480,
+  rpcUrl: "https://worldchain-mainnet.g.alchemy.com/public",
+  explorerUrl: "https://worldscan.org",
+  contractAddress: "0x7a5028BDa40e7B173C278C5342087826455ea25a" // UniswapV3Factory en World Chain
+};
