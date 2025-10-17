@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
+import WelcomePage from "./pages/WelcomePage";
+import SwapPage from "./pages/SwapPage";
 
-export default function App() {
-  return (
-    <div style={{ padding: "2rem", textAlign: "center", fontFamily: "sans-serif" }}>
-      <h1>✅ InfinichainX World App</h1>
-      <p>Human-verified DeFi swaps, lending, and gaming — powered by Worldcoin.</p>
-    </div>
+function App() {
+  const [entered, setEntered] = useState(false);
+
+  return entered ? (
+    <SwapPage />
+  ) : (
+    <WelcomePage onEnter={() => setEntered(true)} />
   );
 }
+
+export default App;
