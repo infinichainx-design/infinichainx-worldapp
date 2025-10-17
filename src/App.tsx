@@ -1,12 +1,10 @@
-import { Swap } from "../components/Swap";
+import React from "react";
 
-function App() {
+export default function App() {
   return (
-    <div style={{ fontFamily: "sans-serif", padding: "2rem" }}>
-      <h1>InfinichainX World App</h1>
-      <Swap />
+    <div style={{ padding: "2rem", textAlign: "center", fontFamily: "sans-serif" }}>
+      <h1>✅ InfinichainX World App</h1>
+      <p>Human-verified DeFi swaps, lending, and gaming — powered by Worldcoin.</p>
     </div>
   );
 }
-
-export default App;
