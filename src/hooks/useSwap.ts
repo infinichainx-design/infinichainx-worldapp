@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { executeSwap } from "../contracts/swapContract";
 
 export default function useSwap() {
   const [loading, setLoading] = useState(false);
@@ -11,12 +12,11 @@ export default function useSwap() {
     setSuccess(false);
 
     try {
-      // Aquí irá la lógica real del contrato
-      console.log(`Swapping ${amount} ${fromToken} to ${toToken}`);
-      await new Promise((res) => setTimeout(res, 1500)); // Simulación temporal
+      await executeSwap(fromToken, toToken, amount);
       setSuccess(true);
     } catch (err) {
-      setError("Swap failed. Try again.");
+      console.error(err);
+      setError("Swap failed. Check wallet and token settings.");
     } finally {
       setLoading(false);
     }
