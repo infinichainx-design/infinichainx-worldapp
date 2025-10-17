@@ -24,9 +24,11 @@ InfinichainX (IFX) is a modular, institutional-grade DeFi suite built for Worldc
 
 - `config/`: Token metadata and chain parameters  
 - `hooks/`: Swap logic and transaction handling  
-- `lib/`: Routing and execution engine  
-- `components/`: World ID verification gate  
-- `contracts/`: ABIs for swap integration
+- `contracts/`: ABIs and contract interaction for World Chain  
+- `components/`: Swap UI, token selector, and World ID gate  
+- `layout/`: Institutional layout wrapper with IFX branding  
+- `styles/`: Theme configuration (colors, fonts, spacing)  
+- `pages/`: Modular views (`WelcomePage`, `SwapPage`) for onboarding and delivery
 
 ---
 
@@ -36,28 +38,6 @@ InfinichainX (IFX) is a modular, institutional-grade DeFi suite built for Worldc
 2. Select tokens and amount  
 3. Execute swap on World Chain  
 4. Receive assets instantly
-
----
-
-## 📈 Stats (Live Preview)
-
-- $42.8M Swap Volume  
-- 28.4K Verified Users  
-- 99.98% Uptime
-
----
-
-## 🧠 Built by
-
-**Alexis** — visionary architect of viral, modular, and institutional-grade DeFi.  
-Curated for Worldcoin. Designed for scale.
-
----
-
-## 📬 Contact
-
-For integration, partnerships, or deployment:  
-**infinichainx.design [at] protonmail.com**
 
 ---
 
