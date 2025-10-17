@@ -4,6 +4,8 @@ import Swap from "../components/Swap";
 import TokenSelector from "../components/TokenSelector";
 import WorldIDGate from "../components/WorldIDGate";
 import useSwap from "../hooks/useSwap";
+import ErrorBanner from "../components/ErrorBanner";
+import SuccessBanner from "../components/SuccessBanner";
 
 export default function SwapPage() {
   const [fromToken, setFromToken] = useState("WLD");
@@ -14,12 +16,16 @@ export default function SwapPage() {
 
   return (
     <Layout>
+      {error && <ErrorBanner message={error} />}
+      {success && <SuccessBanner message={success} />}
+
       <TokenSelector
         fromToken={fromToken}
         toToken={toToken}
         setFromToken={setFromToken}
         setToToken={setToToken}
       />
+
       <input
         type="text"
         placeholder="Amount"
@@ -27,7 +33,9 @@ export default function SwapPage() {
         onChange={(e) => setAmount(e.target.value)}
         style={{ marginTop: "1rem", marginBottom: "1rem" }}
       />
+
       <WorldIDGate onVerify={setVerified} />
+
       <Swap
         fromToken={fromToken}
         toToken={toToken}
