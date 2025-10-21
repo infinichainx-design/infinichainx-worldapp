@@ -1,16 +1,27 @@
 import { useState } from "react";
 
-export function WorldIDGate({ onVerified }: { onVerified: () => void }) {
+interface WorldIDGateProps {
+  onVerified: () => void;
+}
+
+export function WorldIDGate({ onVerified }: WorldIDGateProps) {
   const [verified, setVerified] = useState(false);
 
-  function handleVerify() {
-    // Simulación de verificación
+  const handleVerify = () => {
+    // TODO: Integrar con World ID real (ej. Worldcoin IDKit)
     setVerified(true);
     onVerified();
-  }
+  };
 
   return (
-    <div style={{ padding: "1rem", border: "1px solid #ccc", borderRadius: "8px" }}>
+    <div
+      style={{
+        padding: "1rem",
+        border: "1px solid #ccc",
+        borderRadius: "8px",
+        marginBottom: "1rem",
+      }}
+    >
       {verified ? (
         <p>✅ Identidad verificada con World ID</p>
       ) : (
