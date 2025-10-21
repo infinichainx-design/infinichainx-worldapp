@@ -1,7 +1,11 @@
 import React from "react";
 import { IFX_THEME } from "../styles/theme";
 
-export default function ErrorBanner({ message }) {
+interface ErrorBannerProps {
+  message?: string;
+}
+
+export default function ErrorBanner({ message }: ErrorBannerProps) {
   if (!message) return null;
 
   return (
