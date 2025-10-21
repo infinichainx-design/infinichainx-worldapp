@@ -1,8 +1,15 @@
-import { ArrowRight } from 'lucide-react';
+import React from "react";
+import { ArrowRight } from "lucide-react";
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-white">
+      {/* Head (opcional para SEO) */}
+      {/* <Head>
+        <title>InfinichainX Swap | World Chain</title>
+        <meta name="description" content="DEX modular con verificación World ID y swaps IFX/WLD/USDC" />
+      </Head> */}
+
       {/* Header */}
       <header className="border-b border-slate-800/40">
         <div className="container mx-auto px-4 py-6 flex items-center justify-between">
@@ -58,32 +65,33 @@ export default function LandingPage() {
 
             {/* Features Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12 max-w-3xl mx-auto">
-              <div className="p-6 rounded-xl bg-slate-900 border border-slate-800/50 hover:border-cyan-500/50 transition-colors">
-                <div className="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center mb-4 mx-auto">
-                  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-cyan-400" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-                <h3 className="font-semibold mb-2">Verificación Humana</h3>
-                <p className="text-sm text-slate-400">Seguridad institucional con World ID</p>
-              </div>
-
-              <div className="p-6 rounded-xl bg-slate-900 border border-slate-800/50 hover:border-cyan-500/50 transition-colors">
-                <div className="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center mb-4 mx-auto">
-                  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-cyan-400" xmlns="http://www.w3.org/2000/svg">
+              {[
+                {
+                  title: "Verificación Humana",
+                  description: "Seguridad institucional con World ID",
+                  icon: (
+                    <>
+                      <path
+                        d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </>
+                  ),
+                },
+                {
+                  title: "UX Viral",
+                  description: "Experiencia fluida y rápida",
+                  icon: (
                     <path
                       d="M13 2L3 14H12L11 22L21 10H12L13 2Z"
                       stroke="currentColor"
@@ -91,34 +99,44 @@ export default function LandingPage() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
-                  </svg>
+                  ),
+                },
+                {
+                  title: "Entrega Silenciosa",
+                  description: "Transacciones discretas y eficientes",
+                  icon: (
+                    <>
+                      <path
+                        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M12 6V12L16 14"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </>
+                  ),
+                },
+              ].map((feature, index) => (
+                <div
+                  key={index}
+                  className="p-6 rounded-xl bg-slate-900 border border-slate-800/50 hover:border-cyan-500/50 transition-colors"
+                >
+                  <div className="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center mb-4 mx-auto">
+                    <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-cyan-400" xmlns="http://www.w3.org/2000/svg">
+                      {feature.icon}
+                    </svg>
+                  </div>
+                  <h3 className="font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-sm text-slate-400">{feature.description}</p>
                 </div>
-                <h3 className="font-semibold mb-2">UX Viral</h3>
-                <p className="text-sm text-slate-400">Experiencia fluida y rápida</p>
-              </div>
-
-              <div className="p-6 rounded-xl bg-slate-900 border border-slate-800/50 hover:border-cyan-500/50 transition-colors">
-                <div className="w-12 h-12 rounded-lg bg-cyan-500/10 flex items-center justify-center mb-4 mx-auto">
-                  <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6 text-cyan-400" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M12 6V12L16 14"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-                <h3 className="font-semibold mb-2">Entrega Silenciosa</h3>
-                <p className="text-sm text-slate-400">Transacciones discretas y eficientes</p>
-              </div>
+              ))}
             </div>
           </div>
         </div>
