@@ -1,29 +1,46 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import { IDKitWidget } from "@worldcoin/idkit";
+import { useRouter } from "next/router";
 
-export default function WorldIDGate({ onVerify }) {
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://developer.worldcoin.org/widget.js";
-    script.async = true;
-    document.body.appendChild(script);
-  }, []);
+export default function WorldIDGate() {
+  const [verified, setVerified] = useState(false);
+  const router = useRouter();
+
+  const handleSuccess = (proof: any) => {
+    console.log("World ID verified:", proof);
+    setVerified(true);
+    router.push("/swap");
+  };
 
   return (
-    <div
-      className="world-id-widget"
-      data-theme="light"
-      data-type="orb"
-      data-action="verify-human"
-      data-signal="swap-access"
-      data-telemetry="true"
-      data-on-success={(verificationResponse) => {
-        console.log("World ID verified:", verificationResponse);
-        onVerify(true);
-      }}
-      data-on-error={(error) => {
-        console.error("World ID error:", error);
-        onVerify(false);
-      }}
-    />
+    <div className="min-h-screen bg-slate-950 text-white flex flex-col items-center justify-center px-4">
+      <div className="max-w-xl text-center space-y-6">
+        <h1 className="text-4xl font-bold tracking-tight">Verificación Humana</h1>
+        <p className="text-lg text-slate-400">
+          Para acceder al swap, verifica tu identidad con World ID.
+        </p>
+
+        {!verified ? (
+          <IDKitWidget
+            app_id="your-app-id" // TODO: reemplazar con tu App ID real
+            action="swap-access"
+            signal="infinichainx"
+            onSuccess={handleSuccess}
+            handleVerify={() => Promise.resolve()}
+          >
+            {({ open }) => (
+              <button
+                onClick={open}
+                className="mt-4 px-6 py-3 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold transition-all shadow-md"
+              >
+                Verificar con World ID
+              </button>
+            )}
+          </IDKitWidget>
+        ) : (
+          <p className="text-green-400 font-semibold">✅ Verificación completada</p>
+        )}
+      </div>
+    </div>
   );
 }
