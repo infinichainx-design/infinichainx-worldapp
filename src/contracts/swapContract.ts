@@ -5,19 +5,24 @@ import SwapABI from "./SwapABI.json"; // Asegúrate de tener el ABI correcto en 
 export async function executeSwap(fromToken: string, toToken: string, amount: string) {
   try {
     const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
-    const signer = provider.getSigner();
+
+    // ⚠️ En World App, no hay wallet externa: signer debe venir de World ID o integración nativa
+    const signer = provider.getSigner?.();
+    if (!signer) throw new Error("Signer not available. Ensure wallet or World ID context is connected.");
+
     const contract = new ethers.Contract(CONTRACT_ADDRESS, SwapABI, signer);
 
-    const tx = await contract.swap(
-      fromToken,
-      toToken,
-      ethers.utils.parseUnits(amount, 18)
-    );
+    const parsedAmount = ethers.utils.parseUnits(amount, 18); // Puedes modularizar los decimales si lo deseas
 
+    const tx = await contract.swap(fromToken, toToken, parsedAmount);
     await tx.wait();
+
     return { success: true, txHash: tx.hash };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Swap failed:", error);
-    return { success: false, error };
+    return {
+      success: false,
+      error: error.message || "Unknown error during swap",
+    };
   }
 }
