@@ -1,15 +1,21 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import WelcomePage from "./pages/WelcomePage";
-import SwapPage from "./pages/SwapPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-export default function App(): JSX.Element {
+function Home() {
+  return <h1>Bienvenido a InfinichainX 🌌</h1>;
+}
+
+function About() {
+  return <h2>Este es el módulo viral de identidad y reputación.</h2>;
+}
+
+export default function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<WelcomePage />} />
-        <Route path="/swap" element={<SwapPage />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
