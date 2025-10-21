@@ -1,26 +1,49 @@
 import { ethers } from "ethers";
-import { TOKENS } from "../config/config";
+import { TOKENS } from "../config";
+import swapAbi from "../contracts/swap.json";
+
+interface Token {
+  symbol: string;
+  name: string;
+  address: string;
+  decimals: number;
+  icon?: string;
+}
+
+interface SwapRoute {
+  from: string;
+  to: string;
+  amountIn: ethers.BigNumber;
+  minAmountOut: ethers.BigNumber;
+}
 
 export async function getSwapRoute(
-  fromToken: typeof TOKENS[keyof typeof TOKENS],
-  toToken: typeof TOKENS[keyof typeof TOKENS],
+  fromToken: Token,
+  toToken: Token,
   amount: string
-): Promise<any> {
-  // Simulación de ruta directa
+): Promise<SwapRoute> {
+  const amountIn = ethers.utils.parseUnits(amount, fromToken.decimals);
+  const minAmountOut = amountIn.mul(98).div(100); // 2% slippage
+
   return {
     from: fromToken.address,
     to: toToken.address,
-    amountIn: ethers.utils.parseUnits(amount, fromToken.decimals),
-    minAmountOut: ethers.utils.parseUnits(amount, toToken.decimals).mul(98).div(100), // 2% slippage
+    amountIn,
+    minAmountOut,
   };
 }
 
-export async function executeSwap(route: any, signer: ethers.Signer) {
-  // Simulación de transacción
-  const tx = await signer.sendTransaction({
-    to: route.to,
-    value: route.amountIn,
-  });
+export async function executeSwap(route: SwapRoute, signer: ethers.Signer): Promise<string> {
+  const contractAddress = "0xYourSwapContractAddress"; // TODO: Replace with actual deployed address
+  const contract = new ethers.Contract(contractAddress, swapAbi, signer);
 
-  return tx;
+  const tx = await contract.swapExactTokensForTokens(
+    route.from,
+    route.to,
+    route.amountIn,
+    route.minAmountOut
+  );
+
+  const receipt = await tx.wait();
+  return receipt.transactionHash;
 }
