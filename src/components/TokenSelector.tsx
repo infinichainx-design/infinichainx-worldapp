@@ -1,5 +1,5 @@
 import React from "react";
-import { TOKENS } from "../config/config";
+import { TOKENS } from "../config";
 
 interface TokenSelectorProps {
   fromToken: string;
@@ -15,10 +15,14 @@ export default function TokenSelector({
   setToToken,
 }: TokenSelectorProps) {
   return (
-    <div className="token-selector">
+    <div className="mb-4 space-y-4">
       <div>
-        <label>From:</label>
-        <select value={fromToken} onChange={(e) => setFromToken(e.target.value)}>
+        <label className="block mb-1 text-sm text-white">De:</label>
+        <select
+          value={fromToken}
+          onChange={(e) => setFromToken(e.target.value)}
+          className="w-full p-2 rounded bg-slate-800 text-white"
+        >
           {TOKENS.map((token) => (
             <option key={token.symbol} value={token.address}>
               {token.symbol}
@@ -28,6 +32,19 @@ export default function TokenSelector({
       </div>
 
       <div>
-        <label>To:</label>
-        <select value={toToken} onChange={(e) => setToToken(e.target.value)}>
+        <label className="block mb-1 text-sm text-white">A:</label>
+        <select
+          value={toToken}
+          onChange={(e) => setToToken(e.target.value)}
+          className="w-full p-2 rounded bg-slate-800 text-white"
+        >
           {TOKENS.map((token) => (
+            <option key={token.symbol} value={token.address}>
+              {token.symbol}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+  );
+}
