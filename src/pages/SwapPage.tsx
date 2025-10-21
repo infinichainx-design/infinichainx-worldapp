@@ -8,16 +8,17 @@ import ErrorBanner from "../components/ErrorBanner";
 import SuccessBanner from "../components/SuccessBanner";
 
 export default function SwapPage() {
-  const [fromToken, setFromToken] = useState("WLD");
-  const [toToken, setToToken] = useState("USDC");
-  const [amount, setAmount] = useState("");
-  const [verified, setVerified] = useState(false);
-  const { swap, loading, error, success } = useSwap();
+  const [fromToken, setFromToken] = useState<string>("WLD");
+  const [toToken, setToToken] = useState<string>("USDC");
+  const [amount, setAmount] = useState<string>("");
+  const [verified, setVerified] = useState<boolean>(false);
+
+  const { swap, loading, error, success, txHash } = useSwap();
 
   return (
     <Layout>
       {error && <ErrorBanner message={error} />}
-      {success && <SuccessBanner message={success} />}
+      {success && <SuccessBanner message="Swap successful!" txHash={txHash} />}
 
       <TokenSelector
         fromToken={fromToken}
@@ -27,11 +28,18 @@ export default function SwapPage() {
       />
 
       <input
-        type="text"
-        placeholder="Amount"
+        type="number"
+        placeholder="Enter amount"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
-        style={{ marginTop: "1rem", marginBottom: "1rem" }}
+        style={{
+          marginTop: "1rem",
+          marginBottom: "1rem",
+          padding: "0.5rem",
+          fontSize: "1rem",
+          width: "100%",
+          maxWidth: "300px",
+        }}
       />
 
       <WorldIDGate onVerify={setVerified} />
