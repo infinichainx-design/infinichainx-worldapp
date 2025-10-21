@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import WelcomePage from "./components/WelcomePage";
-import SwapPage from "./components/SwapPage";
+import WelcomePage from "./pages/WelcomePage";
+import SwapPage from "./pages/SwapPage";
 
-export default function App() {
+export default function App(): JSX.Element {
   return (
     <Router>
       <Routes>
