@@ -1,7 +1,11 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { IFX_THEME } from "../styles/theme";
 
-export default function Layout({ children }) {
+type LayoutProps = {
+  children: ReactNode;
+};
+
+export default function Layout({ children }: LayoutProps) {
   return (
     <div
       style={{
