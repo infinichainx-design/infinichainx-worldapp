@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ethers } from "ethers";
-import { TOKENS } from "../config";
+import { TOKENS, SWAP_CONTRACT_ADDRESS } from "../config";
 import swapAbi from "../contracts/swap.json";
 
 interface SwapParams {
@@ -21,28 +21,43 @@ export function useSwap() {
     setTxHash(null);
 
     try {
+      // 1️⃣ Buscar tokens
       const fromToken = TOKENS.find((t) => t.symbol === fromSymbol);
       const toToken = TOKENS.find((t) => t.symbol === toSymbol);
 
-      if (!fromToken || !toToken) {
-        throw new Error("Token not found");
+      if (!fromToken || !toToken) throw new Error("Token not found");
+      if (!amount || Number(amount) <= 0) throw new Error("Invalid amount");
+
+      // 2️⃣ Crear contrato swap
+      const contract = new ethers.Contract(SWAP_CONTRACT_ADDRESS, swapAbi, signer);
+      const amountIn = ethers.parseUnits(amount, fromToken.decimals);
+      const minAmountOut = (amountIn * 95n) / 100n; // 5% slippage
+
+      // 3️⃣ Aprobación ERC20
+      const erc20Abi = [
+        "function approve(address spender, uint256 amount) public returns (bool)",
+        "function allowance(address owner, address spender) public view returns (uint256)"
+      ];
+      const fromTokenContract = new ethers.Contract(fromToken.address, erc20Abi, signer);
+      const owner = await signer.getAddress();
+      const allowance = await fromTokenContract.allowance(owner, SWAP_CONTRACT_ADDRESS);
+
+      if (allowance < amountIn) {
+        const approveTx = await fromTokenContract.approve(SWAP_CONTRACT_ADDRESS, amountIn);
+        await approveTx.wait();
       }
 
-      const contractAddress = "0xYourSwapContractAddress"; // TODO: Replace with actual deployed address
-      const contract = new ethers.Contract(contractAddress, swapAbi, signer);
-
-      const amountIn = ethers.utils.parseUnits(amount, fromToken.decimals);
-      const minAmountOut = amountIn.mul(95).div(100); // 5% slippage protection
-
+      // 4️⃣ Ejecutar swap
       const tx = await contract.swapExactTokensForTokens(
         fromToken.address,
         toToken.address,
         amountIn,
         minAmountOut
       );
-
       const receipt = await tx.wait();
-      setTxHash(receipt.transactionHash);
+
+      setTxHash(receipt.hash);
+      console.log("✅ Swap completado:", receipt.hash);
     } catch (err: any) {
       console.error("Swap error:", err);
       setError(err.message || "Swap failed");
